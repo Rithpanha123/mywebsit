@@ -324,7 +324,7 @@ section {
 }
 .liquid-shaper1 {
   position: absolute;
-  top: 32%;
+  top: 15%;
   left: 85%;
   transform: translate(-50%, -50%);
   width: 450px;
@@ -338,7 +338,7 @@ section {
 }
 #style-text {
   position: absolute;
-  top: 34%;
+  top: 16%;
   left: 85%;
   transform: translate(-50%, -50%);
   font-size: 3rem;
@@ -349,7 +349,7 @@ section {
 }
 #image-box1 {
   position: absolute;
-  top: 30%;
+  top: 14%;
   left: 78%;
   transform: translate(-50%, -50%);
   width: 100px;
