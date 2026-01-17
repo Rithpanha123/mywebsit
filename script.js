@@ -32,9 +32,12 @@ let changeWord = () => {
 
   Array.from(nextWord.children).forEach((letter, i) => {
     letter.className = "letter behind";
-    setTimeout(() => {
-      letter.className = "letter in";
-    }, 340 + i * 80);
+    setTimeout(
+      () => {
+        letter.className = "letter in";
+      },
+      340 + i * 80,
+    );
   });
 
   currentWordIndex = nextWordIndex;
