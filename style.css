@@ -15,11 +15,11 @@
   --normal-font: 2rem;
   --neo-box-shadow: 0 0 0.5rem #12f7ff;
   --h2-font: 3rem;
-  --font-neon-text-shadow: 0 0 10px rgba(18, 247, 255, 0.3),
-    0 0 20px rgba(18, 247, 255, 0.3), 0 0 30px rgba(18, 247, 255, 0.3),
-    0 0 40px rgba(18, 247, 255, 0.3), 0 0 70px rgba(18, 247, 255, 0.3),
-    0 0 80px rgba(18, 247, 255, 0.3), 0 0 100px rgba(18, 247, 255, 0.3),
-    0 0 150px rgba(18, 247, 255, 0.3);
+  --font-neon-text-shadow:
+    0 0 10px rgba(18, 247, 255, 0.3), 0 0 20px rgba(18, 247, 255, 0.3),
+    0 0 30px rgba(18, 247, 255, 0.3), 0 0 40px rgba(18, 247, 255, 0.3),
+    0 0 70px rgba(18, 247, 255, 0.3), 0 0 80px rgba(18, 247, 255, 0.3),
+    0 0 100px rgba(18, 247, 255, 0.3), 0 0 150px rgba(18, 247, 255, 0.3);
 }
 body {
   font-family: "Poppins", sans-serif;
@@ -111,10 +111,14 @@ span {
 
 .navlist a:hover {
   color: var(--hover-color);
-  text-shadow: 0 0 10px rgba(18, 247, 255, 0.6),
-    0 0 20px rgba(18, 247, 255, 0.6), 0 0 30px rgba(18, 247, 255, 0.6),
-    0 0 40px rgba(18, 247, 255, 0.6), 0 0 70px rgba(18, 247, 255, 0.6),
-    0 0 80px rgba(18, 247, 255, 0.6), 0 0 100px rgba(18, 247, 255, 0.6),
+  text-shadow:
+    0 0 10px rgba(18, 247, 255, 0.6),
+    0 0 20px rgba(18, 247, 255, 0.6),
+    0 0 30px rgba(18, 247, 255, 0.6),
+    0 0 40px rgba(18, 247, 255, 0.6),
+    0 0 70px rgba(18, 247, 255, 0.6),
+    0 0 80px rgba(18, 247, 255, 0.6),
+    0 0 100px rgba(18, 247, 255, 0.6),
     0 0 150px rgba(18, 247, 255, 0.6);
 }
 #menu-icon {
@@ -374,12 +378,14 @@ section {
   min-height: 100vh;
   padding: 4rem 2rem;
   border-radius: 19%;
-  background: linear-gradient(var(--secon-bg-color), var(--secon-bg-color))
-      padding-box,
+  background:
+    linear-gradient(var(--secon-bg-color), var(--secon-bg-color)) padding-box,
     linear-gradient(270deg, #ffffff, #00ffff, #00ff66, #fcfcfc) border-box;
 
   border: 3px solid transparent;
-  background-size: 100% 100%, 400% 400%;
+  background-size:
+    100% 100%,
+    400% 400%;
   animation: borderMove 6s ease infinite;
 }
 
@@ -561,7 +567,9 @@ home-image1 {
 
 .service-box:hover {
   transform: translateY(-0.7rem);
-  box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+  box-shadow:
+    0 0 20px #00ffff,
+    0 0 40px #00ffff;
   border: 2px solid var(--hover-color);
 }
 
@@ -802,4 +810,218 @@ home-image1 {
   border-radius: 15px;
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+/* ===============================
+   RESPONSIVE FOR PHONE
+   =============================== */
+@media (max-width: 768px) {
+  header {
+    padding: 15px 5%;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .navlist {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    width: 100%;
+    background: #000;
+    flex-direction: column;
+    text-align: center;
+    transition: 0.4s;
+  }
+
+  .navlist a {
+    display: block;
+    padding: 15px;
+    font-size: 18px;
+  }
+
+  .navlist.active {
+    right: 0;
+  }
+
+  /* HOME */
+  .home {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 120px;
+  }
+
+  .home-content {
+    max-width: 100%;
+  }
+
+  .home-content h1 {
+    font-size: 2rem;
+  }
+
+  .change-text {
+    font-size: 1.2rem;
+  }
+
+  .btn-box {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .socail-icon {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .socail-icon a {
+    width: 50px;
+  }
+
+  /* IMAGE */
+  .home-image {
+    right: 0;
+    margin-top: 30px;
+  }
+
+  .imag-box img {
+    max-width: 280px;
+  }
+
+  .liquid-shaper,
+  .liquid-shaper1 {
+    display: none;
+  }
+
+  /* ABOUT */
+  .about {
+    flex-direction: column;
+    border-radius: 30px;
+    padding: 3rem 1.5rem;
+  }
+
+  .about .img-about img {
+    max-width: 280px;
+  }
+
+  .about-content h2 {
+    font-size: 2rem;
+  }
+
+  /* SERVICE */
+  #service {
+    width: 100%;
+    height: auto;
+  }
+
+  .section-service {
+    flex-direction: column;
+  }
+
+  /* SKILLS */
+  #skills {
+    width: 100%;
+  }
+
+  .Skill-main {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding: 30px 15px;
+  }
+
+  .Professional {
+    grid-template-columns: 1fr;
+  }
+
+  .circle {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 12px 4%;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  /* HOME */
+  .home {
+    padding-top: 110px;
+    gap: 2rem;
+  }
+
+  .home-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .home-content p {
+    font-size: 0.95rem;
+  }
+
+  .change-text {
+    font-size: 1rem;
+  }
+
+  .btn-box a.btn {
+    width: 100%;
+  }
+
+  .socail-icon {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .socail-icon a {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* ABOUT */
+  .about {
+    border-radius: 20px;
+  }
+
+  .about-content h2 {
+    font-size: 1.7rem;
+  }
+
+  .about-content p {
+    font-size: 0.95rem;
+  }
+
+  .info-about1,
+  .info-about2,
+  .info-about3 {
+    display: none;
+  }
+
+  /* SERVICE */
+  .service-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .service-icon {
+    font-size: 2.2rem;
+    padding: 1.5rem;
+  }
+
+  /* SKILL */
+  .Skill-main {
+    padding: 20px 10px;
+  }
+
+  .skill-left h3,
+  .skill-right h3 {
+    font-size: 1.3rem;
+  }
 }
