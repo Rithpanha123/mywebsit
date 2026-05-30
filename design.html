@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Poster Gallery | 10 Masterpiece Images</title>
+  <!-- Google Fonts: clean modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fc 0%, #eef2f8 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+    }
+
+    /* smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* header section */
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(130deg, #1a2a3a, #b23c5c, #e08e3a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      font-size: 1rem;
+      color: #3a5468;
+      margin-top: 0.5rem;
+      border-bottom: 2px solid #ffb34760;
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+    .click-instruction {
+      background: rgba(255,255,245,0.8);
+      backdrop-filter: blur(4px);
+      width: fit-content;
+      margin: 1rem auto 0;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #a13e5c;
+    }
+
+    /* poster grid */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 3rem;
+    }
+
+    /* poster card */
+    .poster-card {
+      background: #ffffff;
+      border-radius: 1.8rem;
+      overflow: hidden;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    .poster-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 40px -12px rgba(0, 0, 0, 0.2);
+      border-color: #ffb34730;
+    }
+
+    /* image container */
+    .poster-image {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .poster-card:hover .poster-image {
+      transform: scale(1.02);
+    }
+
+    .img-wrapper {
+      position: relative;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    .badge-overlay {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #FFE0B5;
+      z-index: 2;
+      font-family: monospace;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+
+    /* poster info section */
+    .poster-info {
+      padding: 1.2rem 1.2rem 1.4rem;
+      background: white;
+    }
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+    .poster-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1e2a36;
+    }
+    .year {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #b46b6b;
+      background: #fef1e6;
+      padding: 0.2rem 0.6rem;
+      border-radius: 40px;
+    }
+    .genre {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #bd7a5a;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+    .short-desc {
+      font-size: 0.8rem;
+      color: #4a5568;
+      line-height: 1.4;
+      margin: 0.4rem 0 0.6rem;
+    }
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .stars i {
+      color: #f5b042;
+      font-size: 0.7rem;
+    }
+
+    /* MODAL FOR DETAILS (popup) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal.active {
+      display: flex;
+      animation: fadeModal 0.25s ease;
+    }
+    @keyframes fadeModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-content {
+      max-width: 700px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 40px 60px rgba(0,0,0,0.5);
+      transform: scale(0.96);
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+    }
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+    .modal-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-details {
+      padding: 1.6rem 2rem 2rem;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .modal-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 0.5rem 0 1rem;
+      font-size: 0.8rem;
+      color: #ad6b5e;
+    }
+    .full-description {
+      color: #2c3e50;
+      line-height: 1.55;
+      margin: 1rem 0 1.2rem;
+      font-size: 0.95rem;
+    }
+    .info-grid {
+      background: #f8fafc;
+      padding: 0.8rem 1rem;
+      border-radius: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .info-chip {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .close-modal-btn {
+      background: #1e293b;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 60px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .close-modal-btn:hover {
+      background: #c44545;
+      transform: scale(0.98);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      font-size: 0.75rem;
+      color: #5f7f9e;
+      border-top: 1px solid #dce5ef;
+    }
+    @media (max-width: 680px) {
+      body { padding: 1rem; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="gallery-container">
+  <div class="hero">
+    <h1>🎬 POSTER ATLAS</h1>
+    <p>10 cinematic masterpieces · original poster images</p>
+    <div class="click-instruction">
+      <i class="fas fa-mouse-pointer"></i> ចុចលើ poster ណាមួយ → មើលព័ត៌មានលម្អិត & រូបភាពធំ
+    </div>
+  </div>
+
+  <div class="poster-grid" id="posterGrid">
+    <!-- Each poster card will have a unique high-quality image from Unsplash or curated cinematic images -->
+    <!-- Poster 1 -->
+    <div class="poster-card" data-id="0">
+      <div class="img-wrapper">
+        <img class="poster-image" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&h=650&fit=crop" alt="Midnight Echo poster">
+        <div class="badge-overlay"><i class="fas fa-film"></i> LIMITED</div>
+      </div>
+      <div class="poster-info">
+        <div class="title-row"><span class="poster-title">MIDNIGHT ECHO</span><span class="year">2025</span></div>
+        <div class="genre">Neo-Noir · Thriller</div>
+        <div class="short-desc">A lost frequency awakens forgotten memories...</div>
+        <div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span> 94%</div>
+      </div>
+    </div>
+    <!-- Poster 2 -->
+    <div class="poster-card" data-id="1">
+      <div class="img-wrapper"><img class="poster-image" src="image/stylejpg.png" alt="Velvet Lies"><div class="badge-overlay"><i class="fas fa-crown"></i> GOLD</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">VELVET LIES</span><span class="year">2024</span></div><div class="genre">Psychological Drama</div><div class="short-desc">High society secrets unravel in darkness.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span> 98%</div></div>
+    </div>
+    <!-- Poster 3 -->
+    <div class="poster-card" data-id="2">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500&h=650&fit=crop" alt="Neon Mirage"><div class="badge-overlay"><i class="fas fa-city"></i> SCI-FI</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">NEON MIRAGE</span><span class="year">2026</span></div><div class="genre">Cyberpunk</div><div class="short-desc">A hacker's quest for the last real sky.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span> 87%</div></div>
+    </div>
+    <!-- Poster 4 -->
+    <div class="poster-card" data-id="3">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&h=650&fit=crop" alt="Silent Bloom"><div class="badge-overlay"><i class="fas fa-feather-alt"></i> FESTIVAL</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">SILENT BLOOM</span><span class="year">2025</span></div><div class="genre">Fantasy / Romance</div><div class="short-desc">An eternal garden & a ghostly painter.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span> 96%</div></div>
+    </div>
+    <!-- Poster 5 -->
+    <div class="poster-card" data-id="4">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=500&h=650&fit=crop" alt="Crimson Veil"><div class="badge-overlay"><i class="fas fa-skull"></i> HORROR</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">CRIMSON VEIL</span><span class="year">2024</span></div><div class="genre">Gothic Horror</div><div class="short-desc">Ancient curse awakens inside a convent.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span> 99%</div></div>
+    </div>
+    <!-- Poster 6 -->
+    <div class="poster-card" data-id="5">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=500&h=650&fit=crop" alt="Stellar Drift"><div class="badge-overlay"><i class="fas fa-rocket"></i> SPACE</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">STELLAR DRIFT</span><span class="year">2027</span></div><div class="genre">Adventure Epic</div><div class="short-desc">Two lost astronauts beyond known galaxy.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span> 91%</div></div>
+    </div>
+    <!-- Poster 7 -->
+    <div class="poster-card" data-id="6">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1496440737103-cd596325d314?w=500&h=650&fit=crop" alt="Fractured Innocence"><div class="badge-overlay"><i class="fas fa-brain"></i> THRILLER</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">FRACTURED INNOCENCE</span><span class="year">2025</span></div><div class="genre">Psychological</div><div class="short-desc">Imaginary friend reveals a terrifying secret.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span> 93%</div></div>
+    </div>
+    <!-- Poster 8 -->
+    <div class="poster-card" data-id="7">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?w=500&h=650&fit=crop" alt="Lotus & Ash"><div class="badge-overlay"><i class="fas fa-dragon"></i> EPIC</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">LOTUS & ASH</span><span class="year">2026</span></div><div class="genre">Martial Arts / Action</div><div class="short-desc">Warrior monks defend a sacred temple.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span> 97%</div></div>
+    </div>
+    <!-- Poster 9 -->
+    <div class="poster-card" data-id="8">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=500&h=650&fit=crop&sat=-20" alt="The Last Broadcast"><div class="badge-overlay"><i class="fas fa-radio"></i> VHS</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">THE LAST BROADCAST</span><span class="year">2024</span></div><div class="genre">Found Footage</div><div class="short-desc">Pirate radio awakens ancient static.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span> 90%</div></div>
+    </div>
+    <!-- Poster 10 -->
+    <div class="poster-card" data-id="9">
+      <div class="img-wrapper"><img class="poster-image" src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=500&h=650&fit=crop&auto=format" alt="Velvet Twilight"><div class="badge-overlay"><i class="fas fa-wine-glass-alt"></i> PREMIERE</div></div>
+      <div class="poster-info"><div class="title-row"><span class="poster-title">VELVET TWILIGHT</span><span class="year">2025</span></div><div class="genre">Romantic Drama</div><div class="short-desc">Eclipse in Paris, second-chance love.</div><div class="rating"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span> 96%</div></div>
+    </div>
+  </div>
+  <div class="footer">
+    <i class="fas fa-images"></i> 10 unique poster images | Click any poster to explore full details & high-res visual
+  </div>
+</div>
+
+<!-- Modal Popup -->
+<div id="posterModal" class="modal">
+  <div class="modal-content">
+    <img id="modalImg" class="modal-img" src="" alt="Poster large">
+    <div class="modal-details">
+      <h2 id="modalTitle" class="modal-title"></h2>
+      <div id="modalMeta" class="modal-meta"></div>
+      <p id="modalDesc" class="full-description"></p>
+      <div id="modalExtra" class="info-grid"></div>
+      <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times-circle"></i> បិទ & ត្រឡប់ក្រោយ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Detailed poster data including full descriptions, cast, directors and high-quality image links (large)
+  const postersData = [
+    { 
+      title: "MIDNIGHT ECHO", genreYear: "Neo-Noir · 2025", fullDesc: "A retired detective discovers a mysterious radio frequency that transmits messages from a decade-old unsolved case. As he digs deeper, the echoes lead him into a labyrinth of corruption, lost souls, and a conspiracy that stretches into the city's highest towers. Stunning night cinematography and a haunting score.", 
+      director: "Jenna K. Nova", cast: "Oscar Isaac, Florence Pugh", rating: "94%", 
+      largeImg: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "VELVET LIES", genreYear: "Psychological Drama · 2024", fullDesc: "panha", 
+      director: "Greta Gerwig", cast: "Anya Taylor-Joy, Robert Pattinson", rating: "98%",
+      largeImg: "image/stylejpg.png"
+    },
+    { 
+      title: "NEON MIRAGE", genreYear: "Cyberpunk · 2026", fullDesc: "Year 2089, a city drowning in neon. A rogue hacker discovers a glitch that reveals glimpses of a world without pollution and digital control. The megacorp wants her erased. A visually explosive journey of resistance.", 
+      director: "Denis Villeneuve", cast: "Mackenzie Davis, John Boyega", rating: "87%",
+      largeImg: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "SILENT BLOOM", genreYear: "Fantasy Romance · 2025", fullDesc: "In a forgotten garden that blooms only during eclipses, a painter meets a mysterious spirit. Their love transcends time, but each petal that blooms costs a memory. A breathtaking visual poem about sacrifice.", 
+      director: "Miyazaki influence", cast: "Romi Park, Takeru Satoh", rating: "96%",
+      largeImg: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "CRIMSON VEIL", genreYear: "Gothic Horror · 2024", fullDesc: "A young nun inherits an isolated convent atop a cursed hill. Ancient whispers and a crimson veil promise immortality — but at a terrifying price. Pure atmospheric dread and stunning gothic imagery.", 
+      director: "Robert Eggers", cast: "Anya Taylor-Joy, Ralph Ineson", rating: "99%",
+      largeImg: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "STELLAR DRIFT", genreYear: "Space Epic · 2027", fullDesc: "Two astronauts drift across the galaxy after their ship is destroyed. As resources dwindle, they discover an ancient alien relic that could change humanity's destiny. A philosophical sci-fi journey.", 
+      director: "Christopher Nolan", cast: "Jessica Chastain, Adam Driver", rating: "91%",
+      largeImg: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "FRACTURED INNOCENCE", genreYear: "Psychological Thriller · 2025", fullDesc: "A child's imaginary friend seems sweet — until murders start matching his drawings. A gripping, haunting thriller that questions the nature of reality and the shadows of childhood.", 
+      director: "Ari Aster", cast: "Toni Collette, Millie Bobby Brown", rating: "93%",
+      largeImg: "https://images.unsplash.com/photo-1496440737103-cd596325d314?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "LOTUS & ASH", genreYear: "Martial Arts Epic · 2026", fullDesc: "In feudal Japan, a disgraced samurai must protect a sacred lotus temple from a ruthless general. Breathtaking choreography, spiritual depth, and a story of redemption.", 
+      director: "Ryuhei Kitamura", cast: "Hiroyuki Sanada, Donnie Yen", rating: "97%",
+      largeImg: "https://images.unsplash.com/photo-1558449028-b53a39d100fc?w=800&h=1000&fit=crop"
+    },
+    { 
+      title: "THE LAST BROADCAST", genreYear: "Analog Horror · 2024", fullDesc: "A lost 1990s TV signal returns, causing madness in a small town. Found footage meets analog horror. Innovative, dread-inducing, and eerily nostalgic.", 
+      director: "Prano Bailey-Bond", cast: "Georgina Campbell, Justin Long", rating: "90%",
+      largeImg: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=800&h=1000&fit=crop&sat=-10"
+    },
+    { 
+      title: "VELVET TWILIGHT", genreYear: "Romantic Drama · 2025", fullDesc: "During a solar eclipse in Paris, two former lovers cross paths. Old wounds, new chances, and the magic of twilight. A tender timeless story of second chances and the beauty of letting go.", 
+      director: "Céline Sciamma", cast: "Léa Seydoux, Timothée Chalamet", rating: "96%",
+      largeImg: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=800&h=1000&fit=crop"
+    }
+  ];
+
+  // DOM elements
+  const modal = document.getElementById('posterModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMeta = document.getElementById('modalMeta');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalExtra = document.getElementById('modalExtra');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  function openModal(index) {
+    const data = postersData[index];
+    // update modal content with large image
+    modalImg.src = data.largeImg;
+    modalImg.alt = data.title;
+    modalTitle.innerText = data.title;
+    modalMeta.innerHTML = `<span><i class="fas fa-tag"></i> ${data.genreYear}</span><span><i class="fas fa-star"></i> ${data.rating}</span>`;
+    modalDesc.innerText = data.fullDesc;
+    modalExtra.innerHTML = `
+      <div class="info-chip"><i class="fas fa-user-tie"></i> Director: ${data.director}</div>
+      <div class="info-chip"><i class="fas fa-users"></i> Cast: ${data.cast}</div>
+      <div class="info-chip"><i class="fas fa-calendar-alt"></i> Release: ${data.genreYear.split('·')[1] || '2025'}</div>
+    `;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click event to each poster card
+  const cards = document.querySelectorAll('.poster-card');
+  cards.forEach((card, idx) => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(idx);
+    });
+  });
+
+  closeModalBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+</script>
+</body>
+</html>

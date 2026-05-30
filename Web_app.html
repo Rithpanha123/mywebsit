@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Poster Studio | Interactive Web App</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f4fa 0%, #e2e8f0 100%);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    /* main app container */
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* header with actions */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      padding: 1rem 2rem;
+      border-radius: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .logo h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e293b, #be5a6e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .logo p {
+      font-size: 0.7rem;
+      color: #5b6e8c;
+    }
+    .upload-area {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .upload-btn {
+      background: #1e293b;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .upload-btn:hover {
+      background: #be5a6e;
+      transform: scale(0.97);
+    }
+    .filter-group {
+      display: flex;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 60px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .filter-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.8rem;
+    }
+    .filter-btn.active {
+      background: #be5a6e;
+      color: white;
+    }
+    .count-badge {
+      background: #eef2ff;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* poster grid */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin: 2rem 0;
+    }
+
+    /* poster card */
+    .poster-card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+    }
+    .poster-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+    }
+    .img-wrapper {
+      position: relative;
+      height: 340px;
+      overflow: hidden;
+      background: #1e1e2a;
+    }
+    .poster-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .poster-card:hover .poster-img {
+      transform: scale(1.03);
+    }
+    .delete-overlay {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 30px;
+      padding: 6px 10px;
+      font-size: 0.7rem;
+      color: white;
+      cursor: pointer;
+      z-index: 5;
+      transition: 0.2s;
+      opacity: 0;
+    }
+    .poster-card:hover .delete-overlay {
+      opacity: 1;
+    }
+    .delete-overlay:hover {
+      background: #e53e3e;
+      transform: scale(1.05);
+    }
+    .poster-info {
+      padding: 1rem 1.2rem 1.3rem;
+    }
+    .poster-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .poster-meta {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.3rem 0 0.4rem;
+      font-size: 0.7rem;
+      color: #be5a6e;
+      font-weight: 600;
+    }
+    .poster-desc {
+      font-size: 0.75rem;
+      color: #4a5568;
+      line-height: 1.4;
+    }
+
+    /* empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem;
+      background: rgba(255,255,240,0.6);
+      border-radius: 2rem;
+      margin: 2rem auto;
+    }
+
+    /* modal detail */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal.active {
+      display: flex;
+      animation: fadeModal 0.2s ease;
+    }
+    @keyframes fadeModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-card {
+      max-width: 650px;
+      width: 100%;
+      background: white;
+      border-radius: 2rem;
+      overflow: hidden;
+      transform: scale(0.96);
+      transition: transform 0.2s;
+    }
+    .modal.active .modal-card {
+      transform: scale(1);
+    }
+    .modal-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+    .modal-body {
+      padding: 1.6rem;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+    .btn-close {
+      background: #1e293b;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: #6c7f9c;
+    }
+    @media (max-width: 700px) {
+      .app-header { flex-direction: column; align-items: stretch; }
+      .upload-area { justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="app-header">
+    <div class="logo">
+      <h1><i class="fas fa-palette"></i> Poster Studio</h1>
+      <p>upload · manage · explore posters</p>
+    </div>
+    <div class="upload-area">
+      <input type="file" id="fileInput" accept="image/*" style="display: none;" multiple>
+      <button class="upload-btn" id="uploadBtnTrigger"><i class="fas fa-cloud-upload-alt"></i> ផ្ទុកឡើង (រូបភាព)</button>
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">ទាំងអស់</button>
+        <button class="filter-btn" data-filter="cinema">Cinema</button>
+        <button class="filter-btn" data-filter="art">Art</button>
+      </div>
+      <div class="count-badge" id="posterCount">0 posters</div>
+    </div>
+  </div>
+
+  <div class="poster-grid" id="posterGrid">
+    <!-- dynamic posters will appear here -->
+  </div>
+  <footer>
+    <i class="fas fa-mouse-pointer"></i> ចុចលើ poster → មើលលម្អិត | ចុចលើរូបសំរាម → លុបចេញ | upload your own images!
+  </footer>
+</div>
+
+<!-- Modal detail -->
+<div id="detailModal" class="modal">
+  <div class="modal-card">
+    <img id="modalImg" class="modal-img" alt="poster preview">
+    <div class="modal-body">
+      <h2 id="modalTitle" style="font-family: 'Space Grotesk';">Title</h2>
+      <div id="modalMeta" style="margin: 6px 0 12px; color:#be5a6e; font-weight:500;"></div>
+      <p id="modalDesc" style="line-height:1.5; color:#2d3e50;"></p>
+      <div class="modal-actions">
+        <button class="btn-close" id="closeModalBtn"><i class="fas fa-times"></i> បិទ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Web App State ----------
+  let posters = [];  // each poster: { id, title, description, category, imageUrl, date }
+  let currentFilter = "all";
+  let nextId = 100;
+
+  // DOM elements
+  const gridContainer = document.getElementById('posterGrid');
+  const fileInput = document.getElementById('fileInput');
+  const uploadTrigger = document.getElementById('uploadBtnTrigger');
+  const posterCountSpan = document.getElementById('posterCount');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const modal = document.getElementById('detailModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMeta = document.getElementById('modalMeta');
+  const modalDesc = document.getElementById('modalDesc');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  // --- Helper: save to localStorage ---
+  function saveToLocal() {
+    const toStore = posters.map(p => ({
+      id: p.id,
+      title: p.title,
+      description: p.description,
+      category: p.category,
+      imageUrl: p.imageUrl,
+      date: p.date
+    }));
+    localStorage.setItem('poster_app_data', JSON.stringify(toStore));
+    localStorage.setItem('nextId', nextId);
+  }
+
+  // --- Load from localStorage ---
+  function loadFromLocal() {
+    const stored = localStorage.getItem('poster_app_data');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        posters = parsed.map(p => ({
+          ...p,
+          imageUrl: p.imageUrl
+        }));
+        if (posters.length) {
+          const maxId = Math.max(...posters.map(p => p.id), 99);
+          nextId = maxId + 1;
+        }
+      } catch(e) { console.warn(e); }
+    }
+    const storedNext = localStorage.getItem('nextId');
+    if(storedNext) nextId = parseInt(storedNext);
+    if (posters.length === 0) {
+      // add 6 default beautiful poster images for demonstration
+      addDefaultPosters();
+    }
+  }
+
+  // create default cinematic posters
+  function addDefaultPosters() {
+    const defaultList = [
+      { title: "Midnight Echo", desc: "A lost radio frequency awakens forgotten memories. Neo-noir thriller.", category: "cinema", img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&h=650&fit=crop" },
+      { title: "Velvet Lies", desc: "High society secrets. Deadly deception. Psychological drama.", category: "cinema", img: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=500&h=650&fit=crop" },
+      { title: "Neon Mirage", desc: "Cyberpunk hacker fights megacorp in a dazzling future.", category: "cinema", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500&h=650&fit=crop" },
+      { title: "Silent Bloom", desc: "Poetic fantasy about a ghostly painter and eternal garden.", category: "art", img: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&h=650&fit=crop" },
+      { title: "Crimson Veil", desc: "Gothic horror. Ancient curse inside a secluded convent.", category: "cinema", img: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=500&h=650&fit=crop" },
+      { title: "Stellar Drift", desc: "Space epic. Two astronauts discover an ancient relic.", category: "cinema", img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=500&h=650&fit=crop" }
+    ];
+    defaultList.forEach(item => {
+      posters.push({
+        id: nextId++,
+        title: item.title,
+        description: item.desc,
+        category: item.category,
+        imageUrl: item.img,
+        date: new Date().toISOString()
+      });
+    });
+    saveToLocal();
+  }
+
+  // render grid based on filter
+  function renderGrid() {
+    let filtered = posters.filter(p => {
+      if (currentFilter === 'all') return true;
+      return p.category === currentFilter;
+    });
+    if (filtered.length === 0) {
+      gridContainer.innerHTML = `<div class="empty-state"><i class="fas fa-images fa-3x" style="color:#be5a6e;"></i><p style="margin-top:1rem;">No posters found. Upload new images or change filter.</p></div>`;
+      posterCountSpan.innerText = `${filtered.length} posters`;
+      return;
+    }
+    let html = '';
+    filtered.forEach(poster => {
+      html += `
+        <div class="poster-card" data-id="${poster.id}">
+          <div class="img-wrapper">
+            <img class="poster-img" src="${poster.imageUrl}" alt="${escapeHtml(poster.title)}" loading="lazy">
+            <div class="delete-overlay" data-id="${poster.id}" title="លុប poster"><i class="fas fa-trash-alt"></i> លុប</div>
+          </div>
+          <div class="poster-info">
+            <div class="poster-title">${escapeHtml(poster.title)}</div>
+            <div class="poster-meta"><span><i class="fas fa-tag"></i> ${poster.category === 'cinema' ? 'Cinema' : 'Art'}</span><span><i class="far fa-calendar-alt"></i> ${new Date(poster.date).toLocaleDateString()}</span></div>
+            <div class="poster-desc">${escapeHtml(poster.description.substring(0, 80))}${poster.description.length > 80 ? '...' : ''}</div>
+          </div>
+        </div>
+      `;
+    });
+    gridContainer.innerHTML = html;
+    posterCountSpan.innerText = `${filtered.length} posters`;
+    
+    // attach click events for each card and delete button
+    document.querySelectorAll('.poster-card').forEach(card => {
+      const posterId = parseInt(card.getAttribute('data-id'));
+      card.addEventListener('click', (e) => {
+        // avoid if delete button was clicked
+        if (e.target.closest('.delete-overlay')) return;
+        openModalById(posterId);
+      });
+    });
+    document.querySelectorAll('.delete-overlay').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.getAttribute('data-id'));
+        deletePosterById(id);
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // delete poster
+  function deletePosterById(id) {
+    if (confirm('តើអ្នកចង់លុប poster នេះមែនទេ?')) {
+      posters = posters.filter(p => p.id !== id);
+      saveToLocal();
+      renderGrid();
+    }
+  }
+
+  // open modal with details
+  function openModalById(id) {
+    const poster = posters.find(p => p.id === id);
+    if (!poster) return;
+    modalImg.src = poster.imageUrl;
+    modalTitle.innerText = poster.title;
+    modalMeta.innerHTML = `<i class="fas fa-film"></i> ${poster.category === 'cinema' ? 'Cinematic Release' : 'Art Edition'}  |  <i class="far fa-calendar"></i> ${new Date(poster.date).toLocaleDateString()}`;
+    modalDesc.innerText = poster.description;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // add new poster from image file + metadata prompt
+  function addNewPosterFromFile(imageFile) {
+    if (!imageFile.type.startsWith('image/')) {
+      alert('សូមជ្រើសរើសឯកសាររូបភាព (jpg, png, etc)');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imageUrl = e.target.result;
+      // ask for poster details
+      let title = prompt("បញ្ចូលចំណងជើង Poster (Title):", "My Awesome Poster");
+      if (!title) title = "Untitled Poster";
+      let description = prompt("បញ្ចូលការពណ៌នា (Description):", "Beautiful design uploaded by user");
+      if (!description) description = "No description";
+      let categoryInput = prompt("ប្រភេទ (Category): វាយ 'cinema' ឬ 'art'", "cinema");
+      let category = (categoryInput && (categoryInput.toLowerCase() === 'art')) ? 'art' : 'cinema';
+      
+      const newPoster = {
+        id: nextId++,
+        title: title,
+        description: description,
+        category: category,
+        imageUrl: imageUrl,
+        date: new Date().toISOString()
+      };
+      posters.push(newPoster);
+      saveToLocal();
+      renderGrid();
+    };
+    reader.readAsDataURL(imageFile);
+  }
+
+  // multiple uploads
+  function handleMultipleFiles(files) {
+    if (!files.length) return;
+    for (let i = 0; i < files.length; i++) {
+      addNewPosterFromFile(files[i]);
+    }
+  }
+
+  // Event listeners
+  uploadTrigger.addEventListener('click', () => {
+    fileInput.click();
+  });
+  fileInput.addEventListener('change', (e) => {
+    if (fileInput.files.length) {
+      handleMultipleFiles(Array.from(fileInput.files));
+      fileInput.value = '';
+    }
+  });
+
+  // filter buttons
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      renderGrid();
+    });
+  });
+
+  closeModalBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  // initialize app
+  loadFromLocal();
+  renderGrid();
+</script>
+</body>
+</html>
