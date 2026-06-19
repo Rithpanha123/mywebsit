@@ -617,3 +617,80 @@
       .Professional { grid-template-columns: 1fr 1fr; }
       .word-wrapper { min-width: 180px; }
     }
+
+
+
+     /* ===== MARQUEE LINES (ChatGPT style, below Tools) ===== */
+    .marquee-section {
+      margin-top: 30px;
+      padding: 20px 0 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .marquee-stack {
+      display: grid;
+      gap: 12px;
+      align-items: center;
+      justify-items: center;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .marquee-line {
+      width: 170%;
+      padding: 10px 0;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+      transition: border-color 0.3s;
+      transform: rotate(20deg) scale(1);
+      transform-origin: center;
+    }
+    .marquee-line.alt {
+      transform: rotate(-20deg) scale(1);
+    }
+    .marquee-line:hover {
+      border-color: rgba(10, 255, 240, 0.15);
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      white-space: nowrap;
+      will-change: transform;
+      animation: runMarquee 22s ease-in-out infinite;
+      padding-left: 6px;
+    }
+    .marquee-line.alt .marquee-track {
+      animation-duration: 24s;
+      animation-delay: -3s;
+    }
+
+    .marquee-item {
+      padding: 0 18px;
+      font-size: clamp(13px, 1.6vw, 20px);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: #ececf1;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .marquee-item::after {
+      content: "·";
+      font-size: 1.2em;
+      color: rgba(255, 255, 255, 0.12);
+      margin-left: 14px;
+      opacity: 0.5;
+    }
+    .marquee-item:last-child::after {
+      display: none;
+    }
+
+    @keyframes runMarquee {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-25%); }
+      100% { transform: translateX(-50%); }
