@@ -173,3 +173,125 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   this.reset();
 });
 
+// ============================================================
+// HEADER - SCROLL EFFECTS & MENU TOGGLE
+// ============================================================
+
+// ─── 1. Header Scroll Effect ───
+function handleHeaderScroll() {
+  const header = document.getElementById('mainHeader');
+  const scrollThreshold = 50;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > scrollThreshold) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
+
+// ─── 2. Mobile Menu Toggle ───
+function setupMobileMenu() {
+  const menuToggle = document.getElementById('menu-icon');
+  const navWrapper = document.querySelector('.nav-wrapper');
+  const navLinks = document.querySelectorAll('.navlist li a');
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'menu-overlay';
+  document.body.appendChild(overlay);
+
+  function toggleMenu() {
+    menuToggle.classList.toggle('active');
+    navWrapper.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = navWrapper.classList.contains('active') ? 'hidden' : '';
+  }
+
+  menuToggle.addEventListener('click', toggleMenu);
+
+  overlay.addEventListener('click', toggleMenu);
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (navWrapper.classList.contains('active')) {
+        toggleMenu();
+      }
+    });
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navWrapper.classList.contains('active')) {
+      toggleMenu();
+    }
+  });
+}
+
+// ─── 3. Active Nav Link on Scroll ───
+function updateActiveNavOnScroll() {
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.navlist li a');
+
+  window.addEventListener('scroll', () => {
+    let current = 'home';
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+}
+
+// ─── 4. Nav Link Hover Magnetic Effect ───
+function setupMagneticNav() {
+  const navLinks = document.querySelectorAll('.navlist li a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('mousemove', (e) => {
+      const rect = link.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      link.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    });
+
+    link.addEventListener('mouseleave', () => {
+      link.style.transform = 'translate(0, 0)';
+    });
+  });
+}
+
+// ─── 5. Logo Click Animation ───
+function setupLogoAnimation() {
+  const logo = document.querySelector('.logo');
+  
+  logo.addEventListener('click', () => {
+    logo.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+      logo.style.transform = 'scale(1)';
+    }, 200);
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ─── Initialize Header Features ───
+document.addEventListener('DOMContentLoaded', function() {
+  handleHeaderScroll();
+  setupMobileMenu();
+  updateActiveNavOnScroll();
+  setupMagneticNav();
+  setupLogoAnimation();
+});
