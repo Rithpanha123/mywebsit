@@ -17,6 +17,7 @@
   <div class="animated-bg"></div>
   <div class="particles" id="particles"></div>
 
+  
   <!-- ===== PAGE LOADER ===== -->
   <div id="pageLoader">
     <div class="loader-content">
@@ -56,7 +57,7 @@
 
   <!-- ===== HOME SECTION ===== -->
   <section id="home" class="home">
-    <div class="home-content">
+    <div class="home-content reveal">
       <h1>Hi! I'm Nha</h1>
       <div class="change-text">
         <h3>And I'm</h3>
@@ -117,9 +118,9 @@
   <section id="about" class="about">
     <div class="image-about">
       <img src="image/panha.jpg" alt="about">
-      <div class="info-about1"><span>2+</span><p>Years Experience</p></div>
-      <div class="info-about2"><span>10+</span><p>Projects</p></div>
-      <div class="info-about3"><span>5+</span><p>Happy Clients</p></div>
+      <div class="info-about1 reveal"><span>2+</span><p>Years Experience</p></div>
+      <div class="info-about2 reveal" data-delay="100"><span>10+</span><p>Projects</p></div>
+      <div class="info-about3 reveal" data-delay="160"><span>5+</span><p>Happy Clients</p></div>
     </div>
     <div class="about-content">
       <p>Let me introduce</p>
@@ -132,42 +133,42 @@
 
   <!-- ===== SERVICES SECTION ===== -->
   <section id="service">
-    <div class="main-text">
+    <div class="main-text reveal">
       <span>What I will do for you</span><br>
       <h2>Our <span class="neon">Services</span></h2>
     </div>
     <div class="section-service">
-      <div class="service-box">
+      <div class="service-box reveal">
         <i class='bx bxs-layer service-icon'></i>
         <h3>Web Developer</h3>
         <p>Modern responsive websites with neon touch and smooth animations.</p>
         <div class="btn-box service-btn"><a href="#" class="btn">Read More</a></div>
       </div>
-      <div class="service-box">
+      <div class="service-box reveal" data-delay="100">
         <i class='bx bx-code-alt service-icon'></i>
         <h3>Frontend Dev</h3>
         <p>React, Vue, animations, and interactive UI components.</p>
         <div class="btn-box service-btn"><a href="#" class="btn">Read More</a></div>
       </div>
-      <div class="service-box">
+      <div class="service-box reveal" data-delay="100">
         <i class='bx bx-desktop service-icon'></i>
         <h3>Desktop App C#</h3>
         <p>Windows applications with modern UI and database integration.</p>
         <div class="btn-box service-btn"><a href="#" class="btn">Read More</a></div>
       </div>
-      <div class="service-box">
+      <div class="service-box reveal" data-delay="160">
         <i class='bx bx-wrench service-icon'></i>
         <h3>Check Error Computer</h3>
         <p>Hardware diagnostics and system optimization.</p>
         <div class="btn-box service-btn"><a href="#" class="btn">Read More</a></div>
       </div>
-      <div class="service-box">
+      <div class="service-box reveal" data-delay="220">
         <i class="fa-solid fa-pen-nib service-icon"></i>
         <h3>Graphic Designer</h3>
         <p>Logo, brand identity, and cyber aesthetic designs.</p>
         <div class="btn-box service-btn"><a href="#" class="btn">Read More</a></div>
       </div>
-      <div class="service-box">
+      <div class="service-box reveal" data-delay="280">
         <i class="fa-solid fa-camera service-icon"></i>
         <h3>Video Editor</h3>
         <p>Professional editing, motion graphics, and visual effects.</p>
@@ -322,7 +323,7 @@
 
   <!-- ===== PORTFOLIO SECTION ===== -->
   <section id="portfolio">
-    <div class="main-text">
+    <div class="main-text reveal">
       <span>What I will do for you</span><br>
       <h2>Latest <span class="neon">Projects</span></h2>
     </div>
@@ -334,7 +335,7 @@
         <button class="btn filter-btn" data-filter="webapp">Web App</button>
       </div>
       <div class="profolio">
-        <div class="port-box" data-category="product">
+        <div class="port-box reveal" data-category="product">
           <div class="port-image"><img src="image/Epic Graphic Design Services.jpg" alt="project"></div>
           <div class="port-content">
             <h3>Graphic Design</h3>
@@ -342,7 +343,7 @@
             <a href="design.html"><i class='bx bx-link-external'></i></a>
           </div>
         </div>
-        <div class="port-box" data-category="webapp">
+        <div class="port-box reveal" data-category="webapp">
           <div class="port-image"><img src="image/Web Application.png" alt="project"></div>
           <div class="port-content">
             <h3>Web Application</h3>
@@ -350,7 +351,7 @@
             <a href="https://salecomputer.infinityfreeapp.com/#"><i class='bx bx-link-external'></i></a>
           </div>
         </div>
-        <div class="port-box" data-category="webapp">
+        <div class="port-box reveal" data-category="webapp">
           <div class="port-image"><img src="image/websitsala.png" alt="project"></div>
           <div class="port-content">
             <h3>Web Application</h3>
@@ -358,20 +359,21 @@
             <a href="https://sala-technology.vercel.app/#"><i class='bx bx-link-external'></i></a>
           </div>
         </div>
-        <div class="port-box" data-category="interaction">
+        <div class="port-box reveal" data-category="interaction">
           <div class="port-image"><img src="image/desktop App.png" alt="project"></div>
           <div class="port-content">
             <h3>Desktop Application</h3>
-            <p>Do for desktop software development "students management".Use C# Language</p>
+            <p>Do for desktop software development "students management".Use C#
+               Language</p>
             <a href="#"><i class='bx bx-link-external'></i></a>
           </div>
         </div>
-        <div class="port-box" data-category="webapp">
+        <div class="port-box reveal" data-category="webapp">
           <div class="port-image"><img src="image/Wep_App.png" alt="project"></div>
           <div class="port-content">
             <h3>Web Application</h3>
             <p>Do for ecommerce "sale computer".Use HTML, CSS, JavaScript, PHP language.</p>
-            <a href="#"><i class='bx bx-link-external'></i></a>
+            <a href="http://transportsystem.infinityfreeapp.com/#"><i class='bx bx-link-external'></i></a>
           </div>
         </div>
       </div>

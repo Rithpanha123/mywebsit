@@ -100,6 +100,22 @@ section {
   50% { transform: scale(1.05); opacity: 0.7; }
 }
 
+/* ─── Reveal Animations ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal[data-delay="80"]  { transition-delay: .08s; }
+.reveal[data-delay="100"] { transition-delay: .1s; }
+.reveal[data-delay="160"] { transition-delay: .16s; }
+.reveal[data-delay="200"] { transition-delay: .2s; }
+.reveal[data-delay="300"] { transition-delay: .3s; }
+
 /* ========== ANIMATED BACKGROUND ========== */
 .animated-bg {
   position: fixed;
