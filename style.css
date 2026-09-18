@@ -737,7 +737,8 @@ header {
 .home-image { position: relative; display: flex; justify-content: center; }
 .image-box img {
   width: 100%;
-  max-width: 380px;
+  max-width: 250px;
+
   filter: drop-shadow(0 0 25px #0afff0);
   animation: floatImage 4s ease-in-out infinite;
 }
@@ -763,11 +764,12 @@ header {
   padding: 3rem;
 }
 .image-about { position: relative; text-align: center; }
-.image-about img { max-width: 320px; border-radius: 30px; box-shadow: 0 0 30px cyan; }
+.image-about img { max-width: 420px; border-radius: 60%; box-shadow:0 30px cyan; }
 .info-about1, .info-about2, .info-about3 {
   position: absolute;
   background: rgba(0,0,0,0.7);
   backdrop-filter: blur(8px);
+  width: 150px;
   padding: 10px 18px;
   border-radius: 20px;
   border: 1px solid cyan;
